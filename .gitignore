@@ -1,3 +1,4 @@
+traffic-signs-data/
 data
 .ipynb_checkpoints
 *.h5
