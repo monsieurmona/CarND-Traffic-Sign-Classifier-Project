@@ -24,13 +24,20 @@ I have used the experiences described in paper "Traffic Sign Recognition with Mu
 [image5]: ./report/learning_without_dropout.png "Learning Without Drop Out"
 [image6]: ./report/learning_with_dropout.png "Learning With Drop Out"
 [image7]: ./report/ms_architecture.png "MS Architecture"
-[image8]: ./examples/placeholder.png "Traffic Sign 3"
-[image9]: ./examples/placeholder.png "Traffic Sign 4"
-[image10]: ./examples/placeholder.png "Traffic Sign 5"
+[image8]: ./report/german_traffic_signs.png "German Traffic Signs"
+[image9]: ./report/softmax_probabilities_traffic_signs.png "Softmax Probabilities Traffic Signs"
+[image9_02]: ./report/softmax_probabilities_traffic_signs_02.png "Softmax Probabilities Traffic Signs"
+[image9_03]: ./report/softmax_probabilities_traffic_signs_03.png "Softmax Probabilities Traffic Signs"
+[image9_04]: ./report/softmax_probabilities_traffic_signs_04.png "Softmax Probabilities Traffic Signs"
+[image9_05]: ./report/softmax_probabilities_traffic_signs_05.png "Softmax Probabilities Traffic Signs"
+[image9_06]: ./report/softmax_probabilities_traffic_signs_06.png "Softmax Probabilities Traffic Signs"
+[image9_07]: ./report/softmax_probabilities_traffic_signs_07.png "Softmax Probabilities Traffic Signs"
+[image9_08]: ./report/softmax_probabilities_traffic_signs_08.png "Softmax Probabilities Traffic Signs"
+[image9_09]: ./report/softmax_probabilities_traffic_signs_09.png "Softmax Probabilities Traffic Signs"
+[image9_10]: ./report/softmax_probabilities_traffic_signs_10.png "Softmax Probabilities Traffic Signs"
 
 ## Rubric Points
-Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation. |30|32|0,0005|Global|SS|Y Channel|108|200|57|43| |0.958|
-
+Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.
 
 ### Data Set Summary & Exploration
 
@@ -88,8 +95,7 @@ My final model consisted of the following layers:
 | Classifier Layer 1: Network	    | 57 Hidden Units       									|
 | Classifier Layer 1: RELU		| 												|
 | Classifier Layer 1: Dropout	      	| Keep Propability: 0.5 				|
-| Classifier Layer 1: Network	    | 43 Hidden Units       									|
-| Fully connected		| etc.        									|
+| Classifier Layer 2: Network	    | 43 Hidden Units       									|									|
 | Softmax cross entropy with logits				|         									|
 | Loss operation						| reduce mean												|
 | Optimizer						| AdamOptimizer learning rate 0.0002												|
@@ -98,7 +104,7 @@ My final model consisted of the following layers:
 ### Model Training
 
 #### Layout
-I started with the LeNet model given in the excersices:
+I started with the LeNet model given in the excersices, it it showed already good results to start with.
 
 | Epoch | Batch Size | Learn Rate | Normalize | Arch | Picture | Layer 1 | Layer 2 | Classifier L1 | Classifier L2 | Classifier L3 | Accuracy Validation |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
@@ -107,7 +113,7 @@ I started with the LeNet model given in the excersices:
 
 The goal was to see the effect of simple gray scaling the traffic signs versus using the luma channel. As the luma channel showed better performance I worked with that.
 
-In a next attempt I changed the layout of the network. This impoved the performance way more as you can see in the next table.
+In a next attempt I changed the layout of the network similar to the recommendation from Pierre Sermanet and Yann LeCun.  This impoved the performance way more as you can see in the next table.
 
 | Epoch | Batch Size | Learn Rate | Normalize | Arch | Picture | Layer 1 | Layer 2 | Classifier L1 | Classifier L2 | Classifier L3 | Accuracy Validation |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
@@ -124,13 +130,15 @@ Another performance gain gave local normalization of training images.
 |30|32|0,0005|Global|SS|Y Channel|108|200|57|43|0.958|
 |30|32|0,0005|Local + Global|SS|Y Channel|108|200|57|43|0.983|
 
+This impoves the contrast of edges a lot, even if pictures histogram looks already widespread. This does not only help the human eye to recognize a picture but is also benefitial for the network as features are exposed.
+
 #### Dropout
 
 Learning without dropout looks like this. The accuracy increases fast but gets never stable. Lowering the learning rate didn't smooth the graph as desired. 
 
 ![alt text][image5]
 
-Indroducing dropout after convolution and in between the two classification layers smoothed the learning and gave again another performance boost. 
+Indroducing dropout after convolution and between the two classification layers smoothed the learning and gave again another performance boost. 
 
 ![alt text][image6]
 
@@ -142,7 +150,7 @@ Indroducing dropout after convolution and in between the two classification laye
 
 #### MS versus SS Architecture
 
-Finally I have implemented the MS architecture described by Pierre Sermanet and Yann LeCun. 
+At last, I have implemented the MS architecture described by Pierre Sermanet and Yann LeCun. 
 
 ![alt text][image7]
 
@@ -152,77 +160,37 @@ Finally I have implemented the MS architecture described by Pierre Sermanet and 
 
 ** Testing Accuracy: 0.972 **
 
-Unlike the experience from Pierre Sermanet and Yann LeCun I could not see on the first sight that this improves the performance of the network. I have choosen snow covered traffic signs for a final test. As those were better recognized by the MS architecture, I decided to choose this MS even though the test accuracy is lower. 
+Unlike the experience from Pierre Sermanet and Yann LeCun I could not see at first sight that the MS architectue improves the performance of the network. I have choosen snow covered traffic signs for a final test. As those were better recognized by the MS architecture, I decided to choose this MS even though the test accuracy is lower. I belive the SS architecture was already overfitting.
 
-
-#### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
-
-To train the model, I used an ....
-
-#### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
-
+#### Final Results
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
 
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
-
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
+* validation set accuracy of 0.993 
+* test set accuracy of 0.972
  
-
 ### Test a Model on New Images
 
-#### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
+Here are ten German traffic signs that I found on the web:
 
-Here are five German traffic signs that I found on the web:
+![alt text][image8]
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+I have choosen also snow covered, rotated and low contrast traffic signs to see if the network is able to classify them properly.
 
-The first image might be difficult to classify because ...
+#### Result
 
-#### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
+The model was able to classified all traffic signs correctly and was in all cases 100 percent sure.  Even with the partly visible snow covered one. 
 
-Here are the results of the prediction:
+Please see the softmax probabilities in the following picture. 
 
-| Image			        |     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+![alt text][image9]
+![alt text][image9_02]
+![alt text][image9_03]
+![alt text][image9_04]
+![alt text][image9_05]
+![alt text][image9_06]
+![alt text][image9_07]
+![alt text][image9_08]
+![alt text][image9_09]
+![alt text][image9_10]
 
-
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
-
-#### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
-
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
-
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
-
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
-
-
-For the second image ... 
-
-### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
-#### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
-
-
+The code for making predictions on my final model is located in the 12th cell of the Ipython notebook.
